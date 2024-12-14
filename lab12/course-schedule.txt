@@ -1,0 +1,26 @@
+class Solution(object):
+    def canFinish(self, numCourses, prerequisites):
+        graph = [[] for _ in range(numCourses)]
+        visited = [0] * numCourses
+        for x, y in prerequisites:
+            graph[x].append(y)
+
+        def dfs(i):
+            if visited[i] == -1:
+                return False
+            if visited[i] == 1:
+                return True
+            visited[i] = -1
+            for j in graph[i]:
+                if not dfs(j):
+                    return False
+            visited[i] = 1
+            return True
+
+        for i in range(numCourses):
+            if not dfs(i):
+                return False
+        return True
+
+#Жишээлбэл, [0, 1] хос нь 0-р курст суралцахын тулд эхлээд 1-р курст суралцах ёстойг харуулж байна.
+#Хэрэв та бүх хичээлээ дуусгаж чадвал үнэн гэж буцаана. Үгүй бол худал буцаана.
